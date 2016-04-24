@@ -3,6 +3,19 @@
 
 #module
 
+	myxpos_ = 0
+	myypos_ = 0
+	myspped_ = 0
+
+	myvec_ = 0
+	
+	dim myoptionxpos_, 256
+	dim myoptionypos_, 256
+	myoptioncount_ = 0
+
+	dim mymissilexpos_, 4
+	dim mymissileypos_, 4
+
 #deffunc myship_init
 	buffer 3
 	picload "res/ship.bmp"
@@ -12,13 +25,13 @@
 	myspped_ = 1
 	
 	repeat 256
-		myoptionxpos_@(cnt) = myxpos_
-		myoptionypos_@(cnt) = myypos_
+		myoptionxpos_(cnt) = myxpos_
+		myoptionypos_(cnt) = myypos_
 	loop
 	
 	repeat 4
-		mymissilexpos_@(cnt) = 0
-		mymissileypos_@(cnt) = -100
+		mymissilexpos_(cnt) = 0
+		mymissileypos_(cnt) = -100
 	loop
 	
 	return
@@ -48,26 +61,26 @@
     if myypos_ > 234 : myypos_ = 234
 
 	; options.
+	color 255, 255, 255
 	pos 0,0
-	mes "FPS:" + fpsmon_@
+	mes "FPS:" + fps_get()
 	
 	repeat 255
-		myoptionxpos_@(255 - cnt) = myoptionxpos_@(254 - cnt)
-		myoptionypos_@(255 - cnt) = myoptionypos_@(254 - cnt)
+		myoptionxpos_(255 - cnt) = myoptionxpos_(254 - cnt)
+		myoptionypos_(255 - cnt) = myoptionypos_(254 - cnt)
 	loop
 	
-	myoptionxpos_@(0) = myxpos_
-	myoptionypos_@(0) = myypos_
+	myoptionxpos_(0) = myxpos_
+	myoptionypos_(0) = myypos_
 	
 	return
 
 #deffunc myship_put
 	; options.
 	repeat 6
-		color 0,0,255
 		tempi = (5 - cnt) * 16 + 16
-		tempx = myoptionxpos_@(tempi) - 9
-		tempy = myoptionypos_@(tempi) - 9
+		tempx = myoptionxpos_(tempi) - 9
+		tempy = myoptionypos_(tempi) - 9
 		
 		pos tempx, tempy
 		gcopy 3, 0, 0, 16, 16
@@ -87,15 +100,3 @@
 	return
 
 #global
-	myxpos_ = 0
-	myypos_ = 0
-	myspped_ = 0
-
-	myvec_ = 0
-	
-	dim myoptionxpos_, 256
-	dim myoptionypos_, 256
-	myoptioncount_ = 0
-
-	dim mymissilexpos_, 4
-	dim mymissileypos_, 4
