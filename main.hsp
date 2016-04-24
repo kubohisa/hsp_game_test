@@ -20,6 +20,7 @@
 
 	; NES size.
 	screen_init
+	fps_init
 	
 	; bgm
 	;bgm_play
@@ -38,11 +39,12 @@
 		myship_put
 		
 		screen_put
-		redraw 1
 
 		; fps.
 		await 0	; hsp system wait.
 		fps_proc
+	
+		redraw 1
 	
 		; game end.
 		getkey flag, 27     ; esc key is the end.

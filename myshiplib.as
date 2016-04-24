@@ -16,14 +16,19 @@
 		myoptionypos_@(cnt) = myypos_
 	loop
 	
+	repeat 4
+		mymissilexpos_@(cnt) = 0
+		mymissileypos_@(cnt) = -100
+	loop
+	
 	return
 
 #deffunc myship_move
-	tempx = myxpos_
-	tempy = myypos_
 	myvec_ = 0
 
 	stick keybuf, 15           ;ƒL[“ü—Íî•ñ
+	
+	// my ship move.
     if (keybuf & 1) {
 	    myxpos_ = myxpos_ - myspped_    ;[©]
 		myvec_ = 1
@@ -43,29 +48,33 @@
     if myypos_ > 234 : myypos_ = 234
 
 	; options.
-	if (tempx != myxpos_ || tempy != myypos_) {
-		repeat 255
-			myoptionxpos_@(cnt + 1) = myoptionxpos_@(cnt)
-			myoptionypos_@(cnt + 1) = myoptionypos_@(cnt)
-		loop
-		myoptionxpos_@(0) = myxpos_
-		myoptionypos_@(0) = myypos_
+	pos 0,0
+	mes "FPS:" + fpsmon_@
 	
-	}
-
+	repeat 255
+		myoptionxpos_@(255 - cnt) = myoptionxpos_@(254 - cnt)
+		myoptionypos_@(255 - cnt) = myoptionypos_@(254 - cnt)
+	loop
+	
+	myoptionxpos_@(0) = myxpos_
+	myoptionypos_@(0) = myypos_
+	
 	return
 
 #deffunc myship_put
 	; options.
-/*	repeat 3
+	repeat 6
 		color 0,0,255
-		tempx = myoptionxpos_@(cnt * 32 + 32)
-		tempy = myoptionypos_@(cnt * 32 + 32)
+		tempi = (5 - cnt) * 16 + 16
+		tempx = myoptionxpos_@(tempi) - 9
+		tempy = myoptionypos_@(tempi) - 9
 		
-		boxf tempx, tempy, tempx + 16, tempy + 16
-	loop
-*/
+		pos tempx, tempy
+		gcopy 3, 0, 0, 16, 16
 	
+		;boxf tempx, tempy, tempx + 16, tempy + 16
+	loop
+
 	; my ship.
 ;	color 255,255,255
 ;	boxf myxpos_, myypos_, 	myxpos_ + 16, myypos_ + 16
@@ -83,5 +92,10 @@
 	myspped_ = 0
 
 	myvec_ = 0
+	
 	dim myoptionxpos_, 256
 	dim myoptionypos_, 256
+	myoptioncount_ = 0
+
+	dim mymissilexpos_, 4
+	dim mymissileypos_, 4
