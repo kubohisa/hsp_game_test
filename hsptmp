@@ -1,0 +1,56 @@
+	;
+	;	game system
+	;
+
+; system.
+#include "hspogg.as"
+
+; originals.
+#include "screenlib.as"
+#include "randomlib.as"
+#include "bgmlib.as"
+#include "fpslib.as"
+
+#include "myshiplib.as"
+	
+	; system seting.
+	onexit *close
+	randomize
+	dmmini
+
+	; NES size.
+	screen_init
+	
+	; bgm
+	;bgm_play
+	
+	myship_init
+	
+	; main.
+	repeat
+	
+		redraw 0
+		gsel 1
+		gmode 2
+		screen_clear
+	
+		myship_move
+		myship_put
+		
+		screen_put
+		redraw 1
+
+		; fps.
+		await 0	; hsp system wait.
+		fps_proc
+	
+		; game end.
+		getkey flag, 27     ; esc key is the end.
+        if flag = 1 : goto *close
+	loop
+
+
+	; quit.
+*close
+	end
+
