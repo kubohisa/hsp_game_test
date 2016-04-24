@@ -15,10 +15,14 @@
 
 	dim mymissilexpos_, 4
 	dim mymissileypos_, 4
+	
+	rensyaflag_ = 0
 
 #deffunc myship_init
 	buffer 3
 	picload "res/ship.bmp"
+	buffer 4
+	picload "res/m.bmp"
 
 	myxpos_ = 100
 	myypos_ = 100
@@ -33,6 +37,8 @@
 		mymissilexpos_(cnt) = 0
 		mymissileypos_(cnt) = -100
 	loop
+	
+	rensyaflag_ = 0
 	
 	return
 
@@ -59,12 +65,32 @@
     if myxpos_ > 247 : myxpos_ = 247 : myvec_ = 0
     if myypos_ < 9 : myypos_ = 9
     if myypos_ > 234 : myypos_ = 234
-
-	; options.
-	color 255, 255, 255
-	pos 0,0
-	mes "FPS:" + fps_get()
+ 
+    // ƒ~ƒTƒCƒ‹ˆ—
+	if keybuf & 16 {
+		if (rensyaflag_ == 0){
+			repeat 4
+				if (mymissileypos_(cnt) == -100) {
+					mymissilexpos_(cnt) = myxpos_
+					mymissileypos_(cnt) = myypos_ - 10
 	
+					rensyaflag_ = 1
+					
+					break
+				}
+			loop
+		}
+	} else {
+		rensyaflag_ = 0
+	}
+	repeat 4
+		if (mymissileypos_(cnt) != -100) {
+			mymissileypos_(cnt) -= 4
+			if mymissileypos_(cnt) < 0 : mymissileypos_(cnt) = -100
+		}
+	loop
+	
+	; options.
 	repeat 255
 		myoptionxpos_(255 - cnt) = myoptionxpos_(254 - cnt)
 		myoptionypos_(255 - cnt) = myoptionypos_(254 - cnt)
@@ -76,22 +102,30 @@
 	return
 
 #deffunc myship_put
+	; fps
+	color 255, 255, 255
+	pos 0,0
+	mes "FPS:" + fps_get()
+
 	; options.
-	repeat 6
+/*	repeat 6
 		tempi = (5 - cnt) * 16 + 16
 		tempx = myoptionxpos_(tempi) - 9
 		tempy = myoptionypos_(tempi) - 9
 		
 		pos tempx, tempy
 		gcopy 3, 0, 0, 16, 16
-	
-		;boxf tempx, tempy, tempx + 16, tempy + 16
 	loop
-
-	; my ship.
-;	color 255,255,255
-;	boxf myxpos_, myypos_, 	myxpos_ + 16, myypos_ + 16
+*/	
+	; missiles
+	repeat 4
+		if (mymissileypos_(cnt) != -100) {
+			pos mymissilexpos_(cnt) - 4, mymissileypos_(cnt) - 4
+			gcopy 4, 0, 0, 8, 8
+		}
+	loop
 	
+	; my ship.
 	pos myxpos_ - 9, myypos_ - 9
 	gcopy 3, myvec_ * 16, 0, 16, 16
 	return

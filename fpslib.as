@@ -14,7 +14,9 @@
 	
 	fpstick_ = 0
 	fpsprev_ = 0
+	
 	fpscnt_ = 0
+	
 	fpsmon_ = 0
 
 #deffunc fps_init
@@ -22,6 +24,7 @@
 	
 	fpstick_ = timeGetTime() ; dummy.
 	fpsprev_ = fpstick_
+	
 	fpscnt_ = 0
 	
 	return
