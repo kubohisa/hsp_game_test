@@ -6,13 +6,17 @@
 #include "hspogg.as"
 
 ; originals.
+#include "stdiolib.as"
 #include "screenlib.as"
 #include "randomlib.as"
 #include "bgmlib.as"
 #include "fpslib.as"
 
 #include "myshiplib.as"
-	
+#include "bglib.as"
+#include "enemylib.as"
+#include "refereelib.as"
+
 	; system seting.
 	onexit *close
 	randomize
@@ -26,6 +30,8 @@
 	;bgm_play
 	
 	myship_init
+	bg_init
+	enemy_init
 	
 	; main.
 	repeat
@@ -35,7 +41,13 @@
 		gmode 2
 		screen_clear
 	
+		enemy_move
 		myship_move
+	
+		referee_game
+	
+		bg_put
+		enemy_put
 		myship_put
 		
 		screen_put

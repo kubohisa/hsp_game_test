@@ -20,10 +20,10 @@
 	return
 
 #deffunc screen_clear
-	gradf 0,0,256,240,1,0,128	; 画面クリア
+	;gradf 0,0,256,240,1,0,128	; 画面クリア
 	
-	;color 0,0,0
-	;boxf 0,0,255,239
+	color 0,0,0
+	boxf 0,0,255,239
 	
 	return
 	

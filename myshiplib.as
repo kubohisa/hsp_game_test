@@ -88,6 +88,10 @@
 			mymissileypos_(cnt) -= 4
 			if mymissileypos_(cnt) < 0 : mymissileypos_(cnt) = -100
 		}
+	
+		; ƒOƒƒo[ƒ‹•Ï”‰»
+		mymissilexpos_out_@(cnt) = mymissilexpos_(cnt)
+		mymissileypos_out_@(cnt) = mymissileypos_(cnt)
 	loop
 	
 	; options.
@@ -129,8 +133,14 @@
 	pos myxpos_ - 9, myypos_ - 9
 	gcopy 3, myvec_ * 16, 0, 16, 16
 	return
-	
+
+#deffunc missiledel int a
+	mymissileypos_(a) = -100
+	return
+
 #deffunc myship_exit onexit
 	return
 
 #global
+	dim mymissilexpos_out_, 4
+	dim mymissileypos_out_, 4
